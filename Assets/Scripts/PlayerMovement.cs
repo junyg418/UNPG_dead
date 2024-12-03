@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -14,10 +13,11 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D col;
     
     public CameraController cameraController;
+    public PlayerState playerState;
     
     public float speed      = 5f;
     public float jumpForce  = 15f;
-    public float dashDistance = 3f;
+    public float dashDistance = 5;
     public float dashCooldown = 0.5f;
     
     private int horizontal;
@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         cameraController = FindObjectOfType<CameraController>();
+        playerState = GetComponent<PlayerState>();
     }
 
     void Update()

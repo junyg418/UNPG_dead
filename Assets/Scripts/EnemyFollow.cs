@@ -8,15 +8,20 @@ public class EnemyFollow : MonoBehaviour
 
     public float moveSpeed = 3f; // 적의 이동 속도
     public float stoppingDistance = 1f; // 플레이어와의 최소 거리
-    public float maxFollowDistance = 10f; // 적이 추적할 최대 거리
+    public float maxFollowDistance = 3f; // 적이 추적할 최대 거리
     public float yTolerance = 0.5f; // y축 차이가 이 범위 안에 있을 때만 추적
+    private float previousPositionX; // 이전 프레임에서의 x좌표
 
     private Collider2D playerCollider;
     private Collider2D enemyCollider;
+    private Animator animator;
+
+
     void Start()
     {
         // 적이 위치한 바닥을 찾아서 설정
         myGround = GetCurrentGround(transform.position);
+        animator = GetComponent<Animator>();
 
         // 만약 player가 이미 설정되어 있으면 자동 탐색하지 않음
         if (player == null)
@@ -32,33 +37,44 @@ public class EnemyFollow : MonoBehaviour
             {
                 Debug.LogError("Player 오브젝트를 찾을 수 없습니다. 주인공 캐릭터의 태그를 'Player'로 설정했는지 확인하세요.");
             }
-            enemyCollider = GetComponent<Collider2D>();
-
-            if (player != null)
-            {
-                playerCollider = player.GetComponent<Collider2D>();
-
-                // 플레이어와 적의 충돌을 무시
-                Physics2D.IgnoreCollision(playerCollider, enemyCollider);
-            }
         }
+
+        enemyCollider = GetComponent<Collider2D>();
+
+        if (player != null)
+        {
+            playerCollider = player.GetComponent<Collider2D>();
+
+            // 플레이어와 적의 충돌을 무시
+            Physics2D.IgnoreCollision(playerCollider, enemyCollider);
+        }
+
+        // 초기 이전 위치 설정
+        previousPositionX = transform.position.x;
     }
 
     void Update()
     {
+
         // 플레이어가 없다면 스크립트 종료
-        if (player == null) return;
+        if (player == null) {
+            animator.SetTrigger("undetected");
+            animator.SetBool("Attack", false);
+            return; }
 
         // 플레이어의 바닥을 확인
         playerGround = GetCurrentGround(player.position);
         if (myGround != playerGround)
         {
+            animator.SetBool("Attack", false);
+
             // 바닥이 다르면 추적하지 않음
             return;
         }
         // y축 차이가 tolerance 범위 밖이면 추적하지 않음
         if (Mathf.Abs(player.position.y - transform.position.y) > yTolerance)
         {
+            animator.SetBool("Attack", false);
             return; // y축 차이가 tolerance 범위 밖이면 추적을 멈춤
         }
         // 플레이어와의 거리 계산
@@ -67,15 +83,42 @@ public class EnemyFollow : MonoBehaviour
         // 추적할 최대 거리를 넘으면 추적을 멈춤
         if (distanceToPlayer > maxFollowDistance)
         {
+            animator.SetBool("Attack", false);
             return;
         }
 
         // 플레이어와 일정 거리 이상 떨어져 있으면 플레이어로 이동
         if (distanceToPlayer > stoppingDistance)
         {
+            animator.SetBool("Attack",true);
+
             // x축으로만 이동
             Vector3 direction = new Vector3(player.position.x - transform.position.x, 0, 0).normalized;
             transform.Translate(direction * moveSpeed * Time.deltaTime);
+
+            // 이동 방향에 따른 시선 변경
+            AdjustFacingDirection();
+        }
+       
+        // 현재 x좌표를 업데이트
+        previousPositionX = transform.position.x;
+    }
+
+    // 적의 이동 방향에 따라 시선을 조정
+    private void AdjustFacingDirection()
+    {
+        // 현재 x좌표와 이전 x좌표를 비교하여 이동 방향 계산
+        float movement = transform.position.x - previousPositionX;
+
+        if (movement > 0)
+        {
+            // 오른쪽으로 이동 중
+            transform.localScale = new Vector3(-3.37f, 3.0233f, 1); // 기본 스케일 유지
+        }
+        else if (movement < 0)
+        {
+            // 왼쪽으로 이동 중
+            transform.localScale = new Vector3(3.37f, 3.0233f, 1); // x축 반전
         }
     }
 
@@ -87,9 +130,9 @@ public class EnemyFollow : MonoBehaviour
 
         if (hit.collider != null && hit.collider.CompareTag("Ground"))
         {
-            return hit.collider.transform;  // 바닥의 Transform 반환
+            return hit.collider.transform; // 바닥의 Transform 반환
         }
 
-        return null;  // 바닥에 닿지 않았을 경우 null 반환
+        return null; // 바닥에 닿지 않았을 경우 null 반환
     }
 }
