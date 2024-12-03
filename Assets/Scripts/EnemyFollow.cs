@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class EnemyFollow : MonoBehaviour
 {
-    public Transform player; // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ÂüÁ¶ÇÒ º¯¼ö
-    private Transform myGround; // ÀûÀÌ À§Ä¡ÇÑ ¹Ù´Ú
-    private Transform playerGround; // ÇÃ·¹ÀÌ¾î°¡ À§Ä¡ÇÑ ¹Ù´Ú
+    public Transform player; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private Transform myGround; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù´ï¿½
+    private Transform playerGround; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù´ï¿½
 
-    public float moveSpeed = 3f; // ÀûÀÇ ÀÌµ¿ ¼Óµµ
-    public float stoppingDistance = 1f; // ÇÃ·¹ÀÌ¾î¿ÍÀÇ ÃÖ¼Ò °Å¸®
-    public float maxFollowDistance = 3f; // ÀûÀÌ ÃßÀûÇÒ ÃÖ´ë °Å¸®
-    public float yTolerance = 0.5f; // yÃà Â÷ÀÌ°¡ ÀÌ ¹üÀ§ ¾È¿¡ ÀÖÀ» ¶§¸¸ ÃßÀû
-    private float previousPositionX; // ÀÌÀü ÇÁ·¹ÀÓ¿¡¼­ÀÇ xÁÂÇ¥
+    public float moveSpeed = 3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½
+    public float stoppingDistance = 1f; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½Å¸ï¿½
+    public float maxFollowDistance = 3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½
+    public float yTolerance = 0.5f; // yï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float previousPositionX; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½Ç¥
 
     private Collider2D playerCollider;
     private Collider2D enemyCollider;
@@ -19,23 +19,23 @@ public class EnemyFollow : MonoBehaviour
 
     void Start()
     {
-        // ÀûÀÌ À§Ä¡ÇÑ ¹Ù´ÚÀ» Ã£¾Æ¼­ ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù´ï¿½ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         myGround = GetCurrentGround(transform.position);
         animator = GetComponent<Animator>();
 
-        // ¸¸¾à player°¡ ÀÌ¹Ì ¼³Á¤µÇ¾î ÀÖÀ¸¸é ÀÚµ¿ Å½»öÇÏÁö ¾ÊÀ½
+        // ï¿½ï¿½ï¿½ï¿½ playerï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ Å½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (player == null)
         {
-            // "Player" ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ® °Ë»ö
+            // "Player" ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
             GameObject playerObject = GameObject.FindWithTag("Player");
 
             if (playerObject != null)
             {
-                player = playerObject.transform; // Transform ¼³Á¤
+                player = playerObject.transform; // Transform ï¿½ï¿½ï¿½ï¿½
             }
             else
             {
-                Debug.LogError("Player ¿ÀºêÁ§Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù. ÁÖÀÎ°ø Ä³¸¯ÅÍÀÇ ÅÂ±×¸¦ 'Player'·Î ¼³Á¤Çß´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
+                Debug.LogError("Player ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½Î°ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â±×¸ï¿½ 'Player'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
             }
         }
 
@@ -45,94 +45,94 @@ public class EnemyFollow : MonoBehaviour
         {
             playerCollider = player.GetComponent<Collider2D>();
 
-            // ÇÃ·¹ÀÌ¾î¿Í ÀûÀÇ Ãæµ¹À» ¹«½Ã
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             Physics2D.IgnoreCollision(playerCollider, enemyCollider);
         }
 
-        // ÃÊ±â ÀÌÀü À§Ä¡ ¼³Á¤
+        // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
         previousPositionX = transform.position.x;
     }
 
     void Update()
     {
 
-        // ÇÃ·¹ÀÌ¾î°¡ ¾ø´Ù¸é ½ºÅ©¸³Æ® Á¾·á
+        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         if (player == null) {
             animator.SetTrigger("undetected");
             animator.SetBool("Attack", false);
             return; }
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ¹Ù´ÚÀ» È®ÀÎ
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Ù´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         playerGround = GetCurrentGround(player.position);
         if (myGround != playerGround)
         {
             animator.SetBool("Attack", false);
 
-            // ¹Ù´ÚÀÌ ´Ù¸£¸é ÃßÀûÇÏÁö ¾ÊÀ½
+            // ï¿½Ù´ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             return;
         }
-        // yÃà Â÷ÀÌ°¡ tolerance ¹üÀ§ ¹ÛÀÌ¸é ÃßÀûÇÏÁö ¾ÊÀ½
+        // yï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ tolerance ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (Mathf.Abs(player.position.y - transform.position.y) > yTolerance)
         {
             animator.SetBool("Attack", false);
-            return; // yÃà Â÷ÀÌ°¡ tolerance ¹üÀ§ ¹ÛÀÌ¸é ÃßÀûÀ» ¸ØÃã
+            return; // yï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ tolerance ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
-        // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸® °è»ê
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // ÃßÀûÇÒ ÃÖ´ë °Å¸®¸¦ ³ÑÀ¸¸é ÃßÀûÀ» ¸ØÃã
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (distanceToPlayer > maxFollowDistance)
         {
             animator.SetBool("Attack", false);
             return;
         }
 
-        // ÇÃ·¹ÀÌ¾î¿Í ÀÏÁ¤ °Å¸® ÀÌ»ó ¶³¾îÁ® ÀÖÀ¸¸é ÇÃ·¹ÀÌ¾î·Î ÀÌµ¿
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½Ìµï¿½
         if (distanceToPlayer > stoppingDistance)
         {
             animator.SetBool("Attack",true);
 
-            // xÃàÀ¸·Î¸¸ ÀÌµ¿
+            // xï¿½ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ìµï¿½
             Vector3 direction = new Vector3(player.position.x - transform.position.x, 0, 0).normalized;
             transform.Translate(direction * moveSpeed * Time.deltaTime);
 
-            // ÀÌµ¿ ¹æÇâ¿¡ µû¸¥ ½Ã¼± º¯°æ
+            // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½
             AdjustFacingDirection();
         }
        
-        // ÇöÀç xÁÂÇ¥¸¦ ¾÷µ¥ÀÌÆ®
+        // ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         previousPositionX = transform.position.x;
     }
 
-    // ÀûÀÇ ÀÌµ¿ ¹æÇâ¿¡ µû¶ó ½Ã¼±À» Á¶Á¤
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void AdjustFacingDirection()
     {
-        // ÇöÀç xÁÂÇ¥¿Í ÀÌÀü xÁÂÇ¥¸¦ ºñ±³ÇÏ¿© ÀÌµ¿ ¹æÇâ °è»ê
+        // ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         float movement = transform.position.x - previousPositionX;
 
         if (movement > 0)
         {
-            // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ Áß
-            transform.localScale = new Vector3(-3.37f, 3.0233f, 1); // ±âº» ½ºÄÉÀÏ À¯Áö
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½
+            transform.localScale = new Vector3(-3.37f, 3.0233f, 1); // ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else if (movement < 0)
         {
-            // ¿ÞÂÊÀ¸·Î ÀÌµ¿ Áß
-            transform.localScale = new Vector3(3.37f, 3.0233f, 1); // xÃà ¹ÝÀü
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½
+            transform.localScale = new Vector3(3.37f, 3.0233f, 1); // xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-    // ¹Ù´ÚÀ» È®ÀÎÇÏ´Â ¸Þ¼­µå
+    // ï¿½Ù´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     private Transform GetCurrentGround(Vector3 position)
     {
-        // Raycast¸¦ ÀÌ¿ëÇØ ¹Ù´ÚÀ» È®ÀÎÇÕ´Ï´Ù.
-        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.down, 1f); // 1f´Â RayÀÇ °Å¸®ÀÔ´Ï´Ù.
+        // Raycastï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ù´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.down, 1f); // 1fï¿½ï¿½ Rayï¿½ï¿½ ï¿½Å¸ï¿½ï¿½Ô´Ï´ï¿½.
 
         if (hit.collider != null && hit.collider.CompareTag("Ground"))
         {
-            return hit.collider.transform; // ¹Ù´ÚÀÇ Transform ¹ÝÈ¯
+            return hit.collider.transform; // ï¿½Ù´ï¿½ï¿½ï¿½ Transform ï¿½ï¿½È¯
         }
 
-        return null; // ¹Ù´Ú¿¡ ´êÁö ¾Ê¾ÒÀ» °æ¿ì null ¹ÝÈ¯
+        return null; // ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ null ï¿½ï¿½È¯
     }
 }

@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         int leftInput = Input.GetKey(KeyCode.LeftArrow) ? -1 : 0;
         horizontal = (leftInput != 0 && rightInput != 0) ? 0 : leftInput + rightInput;
         lastDirection = Math.Abs(horizontal) == 1 ? horizontal : lastDirection;
-        transform.localScale = new Vector3(lastDirection*2, 2, 1);
+        transform.localScale = new Vector3(lastDirection*2, 2, 1); 
         
         // 점프 관련 로직
         if (currentFloorCollider is not null && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.DownArrow))
