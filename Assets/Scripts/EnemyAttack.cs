@@ -22,17 +22,19 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.LogError("OnTriggerEnter2D");
+        Debug.Log("충돌 감지: " + collision.gameObject.name);
 
-        // 플레이어가 범위에 들어왔을 때
-        if (other.CompareTag("Player"))
+        // 충돌한 객체의 태그가 "Player"인지 확인
+        if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Player가 범위에 들어왔습니다.");
             isPlayerInRange = true;
             StartCoroutine(AttackPlayer());
         }
     }
+
 
     private void OnTriggerExit2D(Collider2D other)
     {
