@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerState : MonoBehaviour
 {
     public int maxHp = 100;
-    private int currentHp = 100;
+    public int currentHp = 100;
     public Slider hpSlider;
     public Text currentHpText;
     
