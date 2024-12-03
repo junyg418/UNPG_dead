@@ -1812,6 +1812,7 @@ MonoBehaviour:
   maxMental: 100
   mentalSlider: {fileID: 395283156}
   currentMentalText: {fileID: 479333646}
+  mentalRegenRate: 2
 --- !u!1 &479333644
 GameObject:
   m_ObjectHideFlags: 0
