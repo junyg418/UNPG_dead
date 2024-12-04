@@ -8,12 +8,14 @@ using UnityEngine;
  */
 
 public class PlayerMovement : MonoBehaviour
-{   
+{
+    private static readonly int IsRunning = Animator.StringToHash("isRunning");
     private Rigidbody2D rb;
     private Collider2D col;
     
     public CameraController cameraController;
     public PlayerState playerState;
+    private Animator animator;
     
     public float speed      = 5f;
     public float jumpForce  = 15f;
@@ -32,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
         cameraController = FindObjectOfType<CameraController>();
         playerState = GetComponent<PlayerState>();
     }
@@ -68,11 +71,17 @@ public class PlayerMovement : MonoBehaviour
     {   // 이동
         // if (horizontal != 0 && !isTouchingWall)
         if (horizontal != 0)
+        {
             transform.Translate(new Vector2(horizontal * speed * Time.deltaTime, 0));
+            animator.SetBool(IsRunning, true);
+        }
         // else if (isTouchingWall)
         //     transform.Translate(new Vector2(horizontal * speed * Time.deltaTime, 0));
         else // 정지상태 일 때
+        {
             rb.velocity = new Vector2(0, rb.velocity.y);
+            animator.SetBool(IsRunning, false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
